@@ -1,14 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-// const { arrayOf, string, number, shape } = React.PropTypes
-//
-// const user = shape({
-//   first: string.isRequired,
-//   last: string.isRequired,
-//   avatar: string.isRequired
-// })
-
 module.exports = React.createClass({
   getInitialState(){
     return {
@@ -17,7 +9,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount () {
-    $.getJSON('http://api.randomuser.me/?results=10', (res)=>{
+    $.getJSON('http://api.randomuser.me/?results=5', (res)=>{
       this.setState({
         users: res.results
       });
@@ -27,16 +19,26 @@ module.exports = React.createClass({
   render: function() {
     const users = this.state.users.map((item, index) => {
       let user = item.user;
-      console.log(user.picture.thumbnail);
 
       return (
         <li key={user.username}>
-          {user.username} <img src={user.picture.thumbnail}/>
+          <div className="carousel-info">
+            <img alt="" src={user.picture.thumbnail} className="pull-left" />
+            <div className="pull-left">
+              <span className="testimonials-name">{user.name.first + ' ' + user.name.last}</span>
+              <span className="testimonials-post">{user.username}</span>
+              <span className="testimonials-post">{user.phone}</span>
+            </div>
+          </div>
+
         </li>
       )});
 
     return (
-          <ul>{users}</ul>
+          <div>
+            <h2>Users</h2>
+            <ul>{users}</ul>
+          </div>
         );
   }
 
